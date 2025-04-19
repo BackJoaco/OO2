@@ -3,6 +3,9 @@ import com.patterns.Calculadora;
 public class EsperandoValor implements Estados {
     private Calculadora contexto;
 
+    public EsperandoValor(Calculadora contexto){
+        this.contexto = contexto;
+    }
     public String getResultado(){
         return contexto.imprimirResultado();
     }
@@ -10,7 +13,7 @@ public class EsperandoValor implements Estados {
 
     public void setValor(double unValor){
         contexto.calcular(unValor);
-        contexto.setEstado(new EsperandoOperacion());
+        contexto.setEstado(new EsperandoOperacion(contexto));
     }   
 
     public void mas(){

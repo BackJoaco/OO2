@@ -9,7 +9,7 @@ public class Calculadora {
     private Operacion operacion;
 
     public Calculadora() {
-        this.estado = new EsperandoOperacion();
+        this.estado = new EsperandoValor(this);
         this.valorAcumulado = 0;
         this.operacion = new Sumar();
     }
@@ -37,7 +37,8 @@ public class Calculadora {
      */
     public void borrar() {
         this.valorAcumulado = 0;
-        this.estado = new EsperandoValor();
+        this.estado = new EsperandoValor(this);
+        this.operacion = new Sumar();
     }
 
 
