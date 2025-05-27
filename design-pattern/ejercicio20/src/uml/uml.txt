@@ -1,0 +1,59 @@
+@startuml
+class Personaje{
+nombre : String
+}
+
+abstract Arma{}
+class Espada{}
+class Arco{}
+class Baston{}
+
+abstract Armadura{}
+class Hierro{}
+class Cuero{}
+class Acero{}
+
+abstract Habilidad{}
+class Melee{}
+class Distancia{}
+class Curacion{}
+class Magia{}
+
+interface Builder{
+reset()
+setNombre()
+setHabilidad()
+setArma()
+setArmadura()
+}
+class PersonajeBuilder{
+}
+abstract Director{
+Director(b Builder)
+changeBuilder(b Builder)
+crearPersonaje()
+}
+class DirectorGuerrero{}
+class DirectorArquero{}
+class DirectorMago{}
+
+Habilidad <|-- Melee
+Habilidad <|-- Distancia
+Habilidad <|-- Curacion
+Habilidad <|-- Magia
+Armadura <|-- Hierro
+Armadura <|-- Cuero
+Armadura <|--Acero
+Arma <|-- Espada
+Arma <|-- Arco
+Arma <|-- Baston
+Personaje --> Habilidad
+Personaje --> Armadura
+Personaje --> Arma
+Builder <|.. PersonajeBuilder
+PersonajeBuilder --> Personaje
+Director --> Builder
+Director <|-- DirectorGuerrero
+Director <|-- DirectorArquero
+Director <|-- DirectorMago
+@enduml
