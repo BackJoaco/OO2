@@ -1,3 +1,7 @@
 package com.patterns.Armas;
 
-public abstract class Arma {}
+import com.patterns.Armaduras.Armadura;
+
+public abstract class Arma {
+    public abstract int calcularDanioContra(Armadura armadura);
+}

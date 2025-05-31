@@ -18,8 +18,12 @@ public class Personaje {
     public void setArma(Arma arma) { this.arma = arma; }
     public void setArmadura(Armadura armadura) { this.armadura = armadura; }
 
-    public void combatir(Personaje enemigo){
-        
+    public void atacar(Personaje enemigo) {
+        enemigo.recibirDanio(enemigo, arma);
+    }
+
+    public void recibirDanio(Personaje enemigo, Arma arma) {
+        vida -= arma.calcularDanioContra(armadura);
     }
 
 }

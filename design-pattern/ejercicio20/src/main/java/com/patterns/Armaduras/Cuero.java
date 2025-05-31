@@ -1,3 +1,22 @@
 package com.patterns.Armaduras;
 
-public class Cuero extends Armadura {}
+import com.patterns.Armas.Arco;
+import com.patterns.Armas.Baston;
+import com.patterns.Armas.Espada;
+
+public class Cuero extends Armadura {
+    @Override
+    public int recibirDanioDe(Espada espada) {
+        return 8;
+    }
+
+    @Override
+    public int recibirDanioDe(Arco arco) {
+        return 5;
+    }
+
+    @Override
+    public int recibirDanioDe(Baston baston) {
+        return 2;
+    }
+}

@@ -1,3 +1,10 @@
 package com.patterns.Armas;
 
-public class Arco extends Arma {}
+import com.patterns.Armaduras.Armadura;
+
+public class Arco extends Arma {
+    @Override
+    public int calcularDanioContra(Armadura armadura) {
+        return armadura.recibirDanioDe(this);
+    }
+}
