@@ -1,0 +1,83 @@
+(i) El metodo de la clase pago tiene envidia de metodo
+(ii) Move Method
+(iii)
+public class Producto{
+    // ....
+    public double calcularPrecioConIva(){
+        return this.precio + this.precio * this.iva;
+    }
+}
+
+(i) El metodo calcularMontoFinal de la clase Pago tiene el code Smell reinventar la rueda
+(ii) Replace conditional with pipeline
+(iii)
+public class Pago(){
+    // ....
+    public double calcularMontoFinal(){
+        double total = 0.0;
+        if (this.tipo == "EFECTIVO"){
+            total = productos.Stream()
+                .mapToDouble(p -> p.calcularPrecioConIva)
+                .sum();
+            if (total > 100000){
+                total = total - DESCUENTO_EFECTIVO; 
+            }
+        } else if (this.tipo == "TARJETA"){
+            total = productos.Stream()
+                .mapToDouble(p -> p.calcularPrecioConIva)
+                .sum();
+            total = total + ADICIONAL_TARJETA;
+        }
+        return total;
+    }
+}
+
+(i) El metodo calcularMontoFinal de la clase Pago es largo
+(ii) Extract Method
+(iii)
+pulic class Pago{
+    // ...
+    public double calcularMontoTotal(){
+        return productos.Stream()
+                .mapToDouble(p -> p.calcularPrecioConIva)
+                .sum();
+    }
+    public double calcularMontoFinal(){
+        double total = this.calcularMontoTotal();
+        if (this.tipo == "EFECTIVO"){
+            if (total > 100000){
+                total = total - DESCUENTO_EFECTIVO; 
+            }
+        } else if (this.tipo == "TARJETA"){
+            total = total + ADICIONAL_TARJETA;
+        }
+        return total;
+    }
+}
+
+(i) El metodo calcularMontoFinal tiene el code smell sentencia switch
+(ii) Replace conditional with Polymorphism
+(iii)
+pulic abstract class Pago{
+    // ...
+    public duble calcularMontoTotal(){
+        return productos.Stream()
+                .mapToDouble(p -> p.calcularPrecioConIva)
+                .sum();
+    }
+    public abstract double calcularMontoFinal();
+}
+pulic class Efectivo extends Pago{
+    public double calcularMontoFinal(){
+        double total = this.calcularMontoTotal();
+        if (total > 100000){
+            total = total - DESCUENTO_EFECTIVO; 
+        }
+        return total;
+    }
+}
+public class Tarjeta extends Pago{
+    public double calcularMontoFinal(){
+        return this.calcularMontoTotal() + ADICIONAL_TARJETA;
+    }
+}
