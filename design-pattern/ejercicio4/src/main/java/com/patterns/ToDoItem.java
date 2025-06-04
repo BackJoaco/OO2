@@ -52,14 +52,11 @@ public class ToDoItem {
 * haya transcurrido hasta el momento actual. Si el ToDoItem no se inició,
 * genera un error informando la causa específica del mismo.
 */
-    public LocalDate getDuration(){
-        return Duration.between();
-    }
     public void setEndTime(){
         this.time.setEndDate();
     }
     public Duration workedTime(){
-        return state.workedTime();
+        return null;
     }
 
 
@@ -68,11 +65,7 @@ public class ToDoItem {
 * contrario hace nada."
 */
     public void addComment(String comment){
-        if (state instanceof Finished) {
-            throw new IllegalStateException("Cannot add comment to a finished ToDoItem.");
-        } else {
-            state.addComment(comment);
-        }
+        state.addComment(comment);
     }
 
 }

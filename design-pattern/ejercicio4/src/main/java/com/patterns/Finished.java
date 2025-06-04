@@ -2,6 +2,7 @@ package com.patterns;
 
 public class Finished implements State {
     private ToDoItem context;
+    private String comment;
 
     public void setContext(ToDoItem context){
         this.context = context;
@@ -19,7 +20,7 @@ public class Finished implements State {
         throw new IllegalStateException("La instancia de ToDoItem se encuentra en estado de finalizada.");
     }
 
-    public Duration workedTime(){
-        return this.context.getDuration();
+    public void addComment(String comment){
+        throw new IllegalStateException("La instancia de ToDoItem se encuentra en estado de finalizada.");   
     }
 }
