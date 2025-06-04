@@ -1,7 +1,9 @@
+package com.frameworks;
+
 import java.io.PrintWriter;
 import java.net.Socket;
 
-public class VoidServer extends SingleThreadTCPServer {
+public class VoidServer extends SingleThreadTCPServer{
 
     public void handleMessage(String message, PrintWriter out) {
 

@@ -1,8 +1,9 @@
+package com.frameworks;
 
 import java.io.PrintWriter;
 
-public class EchoServer extends SingleThreadTCPServer {
-   
+public class EchoServer extends SingleThreadTCPServer{
+
     public void handleMessage(String message, PrintWriter out) {
         out.println(message);
     }
@@ -12,5 +13,4 @@ public class EchoServer extends SingleThreadTCPServer {
         new EchoServer().startLoop(args);
 
     }
-
 }

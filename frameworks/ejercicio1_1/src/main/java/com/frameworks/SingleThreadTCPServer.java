@@ -1,3 +1,4 @@
+package com.frameworks;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -7,7 +8,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 public abstract class SingleThreadTCPServer {
-
+    
     public abstract void handleMessage(String message, PrintWriter out);
 
     public final void startLoop(String[] args) {
@@ -61,20 +62,29 @@ public abstract class SingleThreadTCPServer {
     
 
     private final void handleClient(Socket clientSocket) {
-        
         try (
                 PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
-                BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));) {
+                BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()))
+        ) {
+            beforeClientHandling(clientSocket, out, in); // Hook antes de manejar el cliente
+
             String inputLine;
             while ((inputLine = in.readLine()) != null) {
+                beforeMessageHandling(inputLine, clientSocket, out); // Hook antes de manejar el mensaje
+
                 System.out.println("Received message: " + inputLine + " from "
                         + clientSocket.getInetAddress().getHostAddress() + ":" + clientSocket.getPort());
-                
-                if (inputLine.equalsIgnoreCase("")) {
+
+                if (inputLine.equalsIgnoreCase(getCloseSessionWord())) {
                     break; // Client requested to close the connection
                 }
                 handleMessage(inputLine, out);
+
+                afterMessageHandling(inputLine, clientSocket, out); // Hook después de manejar el mensaje
             }
+
+            afterClientHandling(clientSocket, out, in); // Hook después de manejar el cliente
+
             System.out.println("Connection closed with " + clientSocket.getInetAddress().getHostAddress() + ":"
                     + clientSocket.getPort());
         } catch (IOException e) {
@@ -87,4 +97,14 @@ public abstract class SingleThreadTCPServer {
             }
         }
     }
+    // Hook para palabra de cierre de sesión
+    protected String getCloseSessionWord() {
+        return "";
+    }
+
+    // Métodos hook opcionales (vacíos por defecto)
+    protected void beforeClientHandling(Socket clientSocket, PrintWriter out, BufferedReader in) {}
+    protected void afterClientHandling(Socket clientSocket, PrintWriter out, BufferedReader in) {}
+    protected void beforeMessageHandling(String message, Socket clientSocket, PrintWriter out) {}
+    protected void afterMessageHandling(String message, Socket clientSocket, PrintWriter out) {}
 }
