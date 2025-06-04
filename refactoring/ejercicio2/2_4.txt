@@ -1,0 +1,128 @@
+public class Producto {
+    private String nombre;
+    private double precio;
+    
+    public double getPrecio() {
+        return this.precio;
+    }
+}
+
+public class ItemCarrito {
+    private Producto producto;
+    private int cantidad;
+        
+    public Producto getProducto() {
+        return this.producto;
+    }
+    
+    public int getCantidad() {
+        return this.cantidad;
+    }
+
+}
+
+public class Carrito {
+    private List<ItemCarrito> items;
+    
+    public double total() {
+        return this.items.stream()
+            .mapToDouble(item -> item.getProducto().getPrecio() * item.getCantidad())
+            .sum();
+    }
+}
+
+(i) Una parte del metodo total() de la clase carrito sufre feature Envy
+(ii) Extract Method
+(iii) 
+public class Carrito {
+    private List<ItemCarrito> items;
+
+    public double calcularTotal(ItemCarrito item){
+        return item.getProducto().getPrecio() * item.getCantidad();
+    }
+    
+    public double total() {
+        return this.items.stream()
+            .mapToDouble(this.calcularTotal(item))
+            .sum();
+    }
+}
+
+(i) El metodo de la clase carrito tiene el code smell Feature Envy
+(ii) Move Method
+(iii)
+public class Carrito {
+    private List<ItemCarrito> items;
+    
+    public double total() {
+        return this.items.stream()
+            .mapToDouble(item.calcularTotal())
+            .sum();
+    }
+}
+public class Producto {
+    private String nombre;
+    private double precio;
+    
+    public double getPrecio() {
+        return this.precio;
+    }
+}
+
+public class ItemCarrito {
+    private Producto producto;
+    private int cantidad;
+        
+    public Producto getProducto() {
+        return this.producto;
+    }
+    
+    public int getCantidad() {
+        return this.cantidad;
+    }
+    public double calcularTotal(){
+        return this.getProducto().getPrecio() * item.getCantidad();
+    }
+
+}
+
+(i) La clase ItemCarrito tiene Feature envy en el metodo calcularTotal porque trae datos de producto para hacer calculos
+(ii) Move Method
+(iii)
+public class Carrito {
+    private List<ItemCarrito> items;
+    
+    public double total() {
+        return this.items.stream()
+            .mapToDouble(item.calcularTotal())
+            .sum();
+    }
+}
+public class Producto {
+    private String nombre;
+    private double precio;
+    
+    public double getPrecio() {
+        return this.precio;
+    }
+    public double calcularTotal(int cantidad){
+        return this.getPrecio * cantidad;
+    }
+}
+
+public class ItemCarrito {
+    private Producto producto;
+    private int cantidad;
+        
+    public Producto getProducto() {
+        return this.producto;
+    }
+    
+    public int getCantidad() {
+        return this.cantidad;
+    }
+    public double calcularTotal(){
+        return this.getProducto().calcularTotal(this.getCantidad());
+    }
+
+}

@@ -1,0 +1,52 @@
+public class Juego {
+    // .......
+    public void incrementar(Jugador j) {
+        j.puntuacion = j.puntuacion + 100;
+    }
+    public void decrementar(Jugador j) {
+        j.puntuacion = j.puntuacion - 50;
+    }
+}
+public class Jugador {
+    public String nombre;
+    public String apellido;
+    public int puntuacion = 0;
+}
+
+(i) La clase Jugador tiene variables de instancia con acceso publico, esto viola el encapsulamiento
+(ii) Encapsulate Field
+(iii)
+public class Juego {
+    // .......
+    public void incrementar(Jugador j) {
+        j.getPuntuacion = j.getPuntuacion + 100;
+    }
+    public void decrementar(Jugador j) {
+        j.getPuntuacion = j.getPuntuacion - 50;
+    }
+}
+public class Jugador {
+    private String nombre;
+    private String apellido;
+    private int puntuacion = 0;
+    // getters y setter de puntuacion
+}
+
+(i) La clase Juego tiene envidia de atributo ya que pide los datos a jugador para calcular y actualizar la var de jugador
+(ii) Feature Envy
+(iii) 
+public class Juego {
+    // .......
+}
+public class Jugador {
+    private String nombre;
+    private String apellido;
+    private int puntuacion = 0;
+    // getters 
+    public void incrementar(Jugador j) {
+        j.puntuacion = j.getPuntuacion + 100;
+    }
+    public void decrementar(Jugador j) {
+        j.puntuacion = j.getPuntuacion - 50;
+    }
+}
