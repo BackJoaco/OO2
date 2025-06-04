@@ -1,0 +1,2 @@
+1. Hay codigo duplicado y logica repetitiva, se podria solucionar con extract method
+2.  
