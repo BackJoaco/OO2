@@ -50,7 +50,11 @@ public class Calculadora {
         estado.setValor(unValor);
     }
     public void calcular(double unValor) {
-        this.valorAcumulado = operacion.operar(valorAcumulado, unValor);
+        try {
+            this.valorAcumulado = operacion.operar(valorAcumulado, unValor);
+        } catch (ArithmeticException e) {
+            this.setEstado(new Error());
+        }        
     }
 
      /**
@@ -71,19 +75,7 @@ public class Calculadora {
     public void dividido() {
         this.estado.dividido();
     }
-    public void sumar() {
-        this.operacion = new Sumar();
-    }
-    public void restar() {
-        this.operacion = new Restar();
-    }
-    public void multiplicar() {
-        this.operacion = new Multiplicar();
-    }
-    public void dividir() {
-        if (valorAcumulado == 0) {
-            this.setEstado(new Error());
-        }
-        this.operacion = new Dividir();
+    public void setOperacion(Operacion operacion){
+        this.operacion = operacion;
     }
 }
